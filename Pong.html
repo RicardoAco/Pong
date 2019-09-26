@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ricardo</title>
+    <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans" rel="stylesheet">
+
+</head>
+
+<script>
+     window.addEventListener("load",init);
+    
+        //STEP ONE
+        function init(){
+            
+            this.teller = 0;
+            this.tellerHard = 5;
+            this.y=230;
+            this.x=20;
+            
+            this.vy=1;
+            this.vx=1;
+            
+            this.paddleY = 0;
+            this.paddleX = 20;
+            
+            var c = document.querySelector("canvas");
+            ctx = c.getContext("2d");
+            ctx.fillStyle = "white";
+            c.addEventListener("mousemove", hover);
+            
+            
+            Animate();
+        }
+        
+        
+    
+        function hover(arg){
+            paddleY = arg.pageY-100;
+            paddleY = paddleY - 50;
+            
+        }
+        var p = document.getElementsByTagName("p") [1];
+    
+         function verander() {
+
+            
+            //console.log(div);
+            if(x+20 > 500){
+                teller++;
+                p.innerHTML = teller;
+                }
+             
+           
+            
+        }
+    
+        //DIT MAAKT HET SPEL MOEILIJKER NAARMATE DE SCORE STIJGT!
+        function hardmode() {
+            
+            if(teller == tellerHard){
+                tellerHard+=5;
+                vy*=1.2;
+                vx*=1.2;
+                
+                
+            }
+        }
+    
+        //STEP TWO
+        function Animate(){
+            
+            
+            
+            ctx.clearRect(0,0,500,500);
+            ctx.fillRect(x,y,20,20);
+            
+            ctx.fillRect(paddleX,paddleY,20,100);
+            
+            x+=vx;
+            y+=vy;
+            
+            if(x >= 480 || x < 0){
+                vx*=-1;
+                
+            }
+            
+            if(y >= 480 || y < 0){
+                vy*=-1;
+                
+            }
+            
+            //HIT
+            //HOU REKENING MET DE X WAARDE OMDAT HET BALLETJE 20 BREED IS!
+            
+            if((y >= paddleY && y <= paddleY+100) && (x >= paddleX-20 && x <= paddleX+20) ){
+                
+                vx*=-1;
+                
+            }
+            
+            if(x <= 0){
+                alert("game over");
+                x = 230;
+                y = 20;
+               }
+            
+            verander();
+            hardmode();
+            if(teller == 5){
+                ctx.fillStyle = "red";
+            }
+            
+            setTimeout(Animate,7);
+            
+        }
+    
+    
+</script>
+
+<style>
+    canvas{
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: black;
+    }
+    
+    .counter{
+       font-family: 'Black Han Sans';
+       display: flex;
+       justify-content: space-around;
+    }
+    
+    
+</style>
+
+
+
+
+
+
+
+<body>
+<p class="counter">SCORE</p>
+<p class="counter">0</p>
+
+<canvas width="500" height="500"></canvas> 
+  
+</body>
+</html>
